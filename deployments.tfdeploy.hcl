@@ -1,11 +1,13 @@
-deployment "west-coast" {
+deployment "production" {
   inputs = {
     bucket_name     = "prod"
+    environment = "prod"
   }
 }
  
-deployment "east-coast" {
+deployment "development" {
   inputs = {
     bucket_name     = "dev"
+    environment = "dev"
   }
 }

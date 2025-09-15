@@ -12,19 +12,49 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
   bucket = aws_s3_bucket.this.id
 
   rule {
-    id     = "size_limit_rule"
+    id     = "size_management_rule"
     status = "Enabled"
 
-    # This rule transitions objects to Glacier storage class when the bucket size exceeds 2GB
-    # Note: AWS doesn't directly limit bucket size, this is a workaround
-    transition {
-      days          = 0
-      storage_class = "GLACIER"
-      
-      # This filter will apply the transition when the bucket size exceeds 2GB (2,147,483,648 bytes)
-      filter {
-        object_size_greater_than = 2147483648
+    # Filter to apply the rule to objects larger than 10MB
+    # This helps manage the bucket size by moving larger objects to cheaper storage
+    filter {
+      and {
+        prefix = ""
+        size_greater_than = 10485760  # 10MB in bytes
       }
+    }
+
+    # Transition objects to STANDARD_IA after 30 days
+    transition {
+      days          = 30
+      storage_class = "STANDARD_IA"
+    }
+
+    # Transition objects to GLACIER after 60 days
+    transition {
+      days          = 60
+      storage_class = "GLACIER"
+    }
+
+    # Expire objects after 365 days
+    expiration {
+      days = 365
+    }
+  }
+
+  # Add a quota rule to help manage total bucket size
+  rule {
+    id     = "quota_rule"
+    status = "Enabled"
+
+    # Apply to all objects
+    filter {
+      prefix = ""
+    }
+
+    # Set a noncurrent version expiration to limit versions
+    noncurrent_version_expiration {
+      noncurrent_days = 30
     }
   }
 }
