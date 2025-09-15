@@ -1,14 +1,11 @@
-component "cluster" {
-  source = "./eks"
+component "s3_storage" {
+  source = "./s3_bucket"
   inputs = {
-    aws_region          = var.aws_region
-    cluster_name_prefix = var.prefix
-    instance_type       = "t2.medium"
+    bucket_name       = var.bucket_name
+    environment       = var.environment
+    enable_versioning = true
   }
   providers = {
-    aws       = provider.aws.this
-    random    = provider.random.this
-    tls       = provider.tls.this
-    cloudinit = provider.cloudinit.this
+    aws = provider.aws.this
   }
 }
