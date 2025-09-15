@@ -7,9 +7,9 @@ This Terraform module creates an S3 bucket with size management features.
 - Creates an S3 bucket with configurable name
 - Implements lifecycle rules to manage storage costs and indirectly control bucket size:
   - Transitions objects larger than 10MB to STANDARD_IA after 30 days
-  - Transitions objects to GLACIER after 60 days
+  - Transitions these objects to GLACIER after 60 days
   - Expires objects after 365 days
-  - Expires noncurrent versions after 30 days
+  - Expires noncurrent versions after 30 days (helps limit total storage)
 - Configurable versioning
 - Server-side encryption with AES256
 

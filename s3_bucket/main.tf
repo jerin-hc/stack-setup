@@ -18,10 +18,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     # Filter to apply the rule to objects larger than 10MB
     # This helps manage the bucket size by moving larger objects to cheaper storage
     filter {
-      and {
-        prefix = ""
-        size_greater_than = 10485760  # 10MB in bytes
-      }
+      size_greater_than = 10485760  # 10MB in bytes
     }
 
     # Transition objects to STANDARD_IA after 30 days
@@ -47,10 +44,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     id     = "quota_rule"
     status = "Enabled"
 
-    # Apply to all objects
-    filter {
-      prefix = ""
-    }
+    # Apply to all objects (empty filter means all objects)
+    filter {}
 
     # Set a noncurrent version expiration to limit versions
     noncurrent_version_expiration {

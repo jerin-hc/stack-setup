@@ -8,7 +8,8 @@ variable "environment" {
   description = "The environment (e.g., dev, staging, prod)"
 }
 
-provider "aws" "this" {
+provider "aws" {
+  alias = "this"
   region = "us-east-1"
 }
 
