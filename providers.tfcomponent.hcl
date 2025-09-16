@@ -7,6 +7,6 @@ required_providers {
 
 provider "aws" "s3" {
   config {
-    region = "us-west-1"
+    region = "eu-north-1"
   }
 }

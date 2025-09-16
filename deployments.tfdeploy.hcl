@@ -1,13 +1,21 @@
-deployment "production" {
+deployment "production-test" {
   inputs = {
-    bucket_name = "prod"
-    environment = "prod"
+    regions        = ["eu-north-1"]
+    role_arn       = "arn:aws:iam::246412344879:role/jerin-full-access-role"
+    identity_token = identity_token.aws.jwt
+    default_tags   = { stacks-preview-example = "lambda-component-expansion-stack" }
+    bucket_name    = "prod"
+    environment    = "prod"
   }
 }
 
-deployment "development" {
+deployment "development-test" {
   inputs = {
-    bucket_name = "dev"
-    environment = "dev"
+    regions        = ["eu-north-1"]
+    role_arn       = "arn:aws:iam::246412344879:role/jerin-full-access-role"
+    identity_token = identity_token.aws.jwt
+    default_tags   = { stacks-preview-example = "lambda-component-expansion-stack" }
+    bucket_name    = "dev"
+    environment    = "dev"
   }
 }
